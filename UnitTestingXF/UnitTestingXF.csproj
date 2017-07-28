@@ -50,6 +50,10 @@
     </Compile>
     <Compile Include="Helpers\Behaviours\EmailValidatorBehavior.cs" />
     <Compile Include="Helpers\Behaviours\PasswordValidatorBehavior.cs" />
+    <Compile Include="Interfaces\ICustomerApi.cs" />
+    <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Helpers\DependencyServiceWrapper.cs" />
+    <Compile Include="Interfaces\IDependencyService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

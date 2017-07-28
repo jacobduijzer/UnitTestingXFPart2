@@ -4,13 +4,23 @@ using System.Windows.Input;
 using MvvmHelpers;
 using Xamarin.Forms;
 using UnitTestingXF.Helpers;
+using UnitTestingXF.Interfaces;
+using UnitTestingXF.Services;
 
 namespace UnitTestingXF.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        public LoginViewModel()
+        private CustomerService _customerService;
+        
+		public LoginViewModel() : this(DependencyServiceWrapper.Instance)
         {
+			// NO CODE HERE!
+		}
+
+		public LoginViewModel(IDependencyService dependencyService)
+		{
+            _customerService = new CustomerService(dependencyService);
             LoginCommand = new Command(async () => await DoLoginAsync(), () => IsFormValid);
         }
 
@@ -30,6 +40,13 @@ namespace UnitTestingXF.ViewModels
             set { SetProperty(ref _password, value); OnPropertyChanged("IsFormValid"); }
         }
 
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set { SetProperty(ref _errorMessage, value); }
+        }
+
         public bool IsFormValid
         {
             get => EmailValidator.IsValidEmail(Username) && PasswordValidator.IsValidPassword(Password);            
@@ -39,9 +56,21 @@ namespace UnitTestingXF.ViewModels
 		{
             if(!IsBusy)
             {
+                ErrorMessage = string.Empty;
                 IsBusy = true;
 
-                // TODO: Implement login logic
+                try
+                {
+					if (await _customerService.LoginAsync(Username, Password))
+					{
+                        // TODO: implement navigation
+					}
+                }
+                catch (Exception ex)
+                {
+                    // TODO: Error handling
+                    ErrorMessage = ex.Message;
+                }
 
                 IsBusy = false;
             }

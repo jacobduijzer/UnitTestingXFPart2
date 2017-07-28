@@ -1,4 +1,5 @@
-﻿using UnitTestingXF.Views;
+﻿using UnitTestingXF.Interfaces;
+using UnitTestingXF.Views;
 using Xamarin.Forms;
 
 namespace UnitTestingXF

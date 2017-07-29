@@ -22,6 +22,7 @@
                 </Entry.Behaviors>
             </Entry>
 
+            <Label Text="{Binding ErrorMessage}" IsVisible="{Binding HasErrorMessage}" TextColor="Red" Margin="20" />           
             <Button Text="Log in" IsEnabled="{Binding IsFormValid}" Command="{Binding LoginCommand}" /> 
          </StackLayout>            
 

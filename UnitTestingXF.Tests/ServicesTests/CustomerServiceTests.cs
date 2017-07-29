@@ -27,7 +27,7 @@ namespace UnitTestingXF.Tests.ServicesTests
             var customerApi = new Mock<ICustomerApi>();
 
             // TODO: Refit exception
-            customerApi.Setup(x => x.LoginAsync(_wrongUsername, _wrongPassword)).ThrowsAsync(new Exception("Error log in"));
+            customerApi.Setup(x => x.LoginAsync(_wrongUsername, _wrongPassword)).ThrowsAsync(new Exception("error logging in"));
             customerApi.Setup(x => x.LoginAsync(_correctUsername, _correctPassword)).ReturnsAsync(true);
 
             _dependencyService.Register<ICustomerApi>(customerApi.Object);
@@ -69,7 +69,7 @@ namespace UnitTestingXF.Tests.ServicesTests
             // TODO: Refit exception
             var ex = Assert.ThrowsAsync<Exception>(async () => await service.LoginAsync(_wrongUsername, _wrongPassword));
 
-            Assert.That(ex.Message, Is.EqualTo("Error log in"));
+            Assert.That(ex.Message, Is.EqualTo("error logging in"));
 		}
 
 		[Test]

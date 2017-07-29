@@ -30,21 +30,26 @@ namespace UnitTestingXF.ViewModels
         public string Username
         {
             get { return _username; }
-            set { SetProperty(ref _username, value); OnPropertyChanged("IsFormValid"); }
+            set { SetProperty(ref _username, value); ErrorMessage = string.Empty; OnPropertyChanged("IsFormValid"); }
         }
 
         private string _password;
         public string Password
         {
             get { return _password; }
-            set { SetProperty(ref _password, value); OnPropertyChanged("IsFormValid"); }
+            set { SetProperty(ref _password, value); ErrorMessage = string.Empty; OnPropertyChanged("IsFormValid"); }
+        }
+
+        public bool HasErrorMessage 
+        {
+            get => !string.IsNullOrWhiteSpace(ErrorMessage);
         }
 
         private string _errorMessage;
         public string ErrorMessage
         {
             get { return _errorMessage; }
-            set { SetProperty(ref _errorMessage, value); }
+            set { SetProperty(ref _errorMessage, value); OnPropertyChanged("HasErrorMessage"); }
         }
 
         public bool IsFormValid

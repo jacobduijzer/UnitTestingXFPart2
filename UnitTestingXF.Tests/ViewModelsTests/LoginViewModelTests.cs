@@ -1,4 +1,5 @@
 ﻿﻿using System;
+using System.Net.Http;
 using Moq;
 using NUnit.Framework;
 using UnitTestingXF.Interfaces;
@@ -25,8 +26,7 @@ namespace UnitTestingXF.Tests.ViewModelsTests
 
 			var customerApi = new Mock<ICustomerApi>();
 
-			// TODO: Refit exception
-			customerApi.Setup(x => x.LoginAsync(_wrongUsername, _wrongPassword)).ThrowsAsync(new Exception("Error log in"));
+			customerApi.Setup(x => x.LoginAsync(_wrongUsername, _wrongPassword)).ThrowsAsync(new Exception("Error logging in"));
 			customerApi.Setup(x => x.LoginAsync(_correctUsername, _correctPassword)).ReturnsAsync(true);
 
 			_dependencyService.Register<ICustomerApi>(customerApi.Object);
@@ -99,7 +99,26 @@ namespace UnitTestingXF.Tests.ViewModelsTests
 
 			Assert.IsTrue(vm.LoginCommand.CanExecute(null));
 			vm.LoginCommand.Execute(null);
-            Assert.That(vm.ErrorMessage, Is.EqualTo("Error log in"));
+            Assert.That(vm.ErrorMessage, Is.EqualTo("Error logging in"));
+            Assert.That(vm.HasErrorMessage, Is.True);
+
+            vm.Username = string.Empty;
+
+            Assert.That(vm.ErrorMessage, Is.Empty);
+            Assert.That(vm.HasErrorMessage, Is.False);
+
+			vm.Username = _wrongUsername;
+			vm.Password = _wrongPassword;
+
+			Assert.IsTrue(vm.LoginCommand.CanExecute(null));
+			vm.LoginCommand.Execute(null);
+			Assert.That(vm.ErrorMessage, Is.EqualTo("Error logging in"));
+			Assert.That(vm.HasErrorMessage, Is.True);
+
+            vm.Password = string.Empty;
+
+			Assert.That(vm.ErrorMessage, Is.Empty);
+			Assert.That(vm.HasErrorMessage, Is.False);
 		}
     }
 }

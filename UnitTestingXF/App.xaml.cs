@@ -1,4 +1,5 @@
 ﻿using UnitTestingXF.Interfaces;
+using UnitTestingXF.Services;
 using UnitTestingXF.Views;
 using Xamarin.Forms;
 
@@ -9,6 +10,8 @@ namespace UnitTestingXF
         public App()
         {
             InitializeComponent();
+
+            DependencyService.Register<ICustomerApi, FakeCustomerApi>();
 
             MainPage = new LoginView();
         }
